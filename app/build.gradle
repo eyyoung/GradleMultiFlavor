@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'test'
+            keyPassword 'test123'
+            storeFile file('test.jks')
+            storePassword 'test123'
+        }
+    }
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
+    defaultConfig {
+        applicationId "me.yytech.gradlemultiflavor"
+        minSdkVersion 10
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_INFO", "true"
+        }
+        release {
+            minifyEnabled false
+            buildConfigField "boolean", "LOG_INFO", "false"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+    sourceSets {
+        flavorOne {
+
+        }
+        flavorTwo {
+        }
+    }
+    productFlavors {
+        flavorOne {
+
+        }
+        flavorTwo {
+
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    flavorOneCompile project(path: ':testmoduleone', configuration: 'flavorOneDebug')
+//    flavorOneCompile project(path: ':testmoduleone', configuration: 'flavorOneRelease')
+    flavorTwoCompile project(path: ':testmoduleone', configuration: 'flavorTwoDebug')
+}
